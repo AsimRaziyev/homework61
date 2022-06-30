@@ -10,7 +10,6 @@ class TaskAdmin(admin.ModelAdmin):
     list_filter = ['status']
     search_fields = ['description']
     fields = ['description', 'status', 'created_at']
-    readonly_fields = ['created_at']
 
 
 admin.site.register(Task, TaskAdmin)
