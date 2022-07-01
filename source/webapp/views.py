@@ -1,11 +1,23 @@
 from django.shortcuts import render
-
 from webapp.models import Task
+from webapp.models import STATUS_CHOICES
+
+
+def index_view(request):
+    tasks = Task.objects.order_by("-created_at")
+    context = {"tasks": tasks}
+    return render(request, "index.html", context)
+
+
+def task_view(request):
+    pk = request.GET.get("pk")
+    task = Task.objects.get(pk=pk)
+    return render(request, 'task_view.html', {"task": task})
 
 
 def create_task(request):
     if request.method == "GET":
-        return render(request, "create.html")
+        return render(request, "create.html", {"statuses": STATUS_CHOICES})
     else:
         description = request.POST.get("description")
         status = request.POST.get("status")

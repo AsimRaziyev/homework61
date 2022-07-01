@@ -14,18 +14,20 @@
 
     <label>Description:</label><br/>
     <textarea name="description"></textarea><br/>
-    <label>Status:</label><br/>
-    <select name="status" class="select" aria-label="Пример">
-        <option value="new" selected>Новая</option>
-        <option value="in_progress">В процессе</option>
-        <option value="done">Сделано</option>
-    </select><br/><br/>
+    <label>Status:</label>
+    <br/>
+    <select name="status">
+        {% for value, status in statuses %}
+            <option value="{{ value }}">{{ status }}</option>
+        {% endfor %}
+    </select>
+    <br/>
     <label>Date: yyyy-mm-dd</label><br/>
     <input type="text" name="created_at"/><br/>
     <br/>
     <input type="submit" value="Send"/>
-</form>
-
+</form><br/>
+<a href="/">На главную</a>
 </body>
 </html>
 
