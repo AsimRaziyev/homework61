@@ -1,23 +1,25 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Редактировать</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Удалить</a>
+    </li>
+{% endblock %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>View</title>
-</head>
-<body>
-
-<h1 style="display: inline-block">
-    {{ task.description }}
-</h1>
-<h3>
-    {{ task.status }}
-</h3>
-<p style="display: inline-block">
-    {{ task.created_at|date:"Y-m-d" }}
-</p>
-<br>
-<a href="/">На главную</a>
-</body>
-
-</html>
+{% block content %}
+    <h1 style="display: inline-block">
+        {{ task.description }}
+    </h1>
+    <h3>
+        {{ task.status }}
+    </h3>
+    <p style="display: inline-block">
+        {{ task.created_at|date:"Y-m-d" }}
+    </p>
+    <br>
+{% endblock %}

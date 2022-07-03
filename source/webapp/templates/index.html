@@ -1,18 +1,23 @@
+{% extends "base.html" %}
 {% load static %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
+    </li>
+{% block search %}
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+{% endblock %}
+{% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-</head>
-<body>
-<a href="tasks/add/">Создание задачи</a>
-        <h1>Задачи</h1>
-        {% for task in tasks %}
-            <h3>{{ task.description }}</h3><span>{{ task.status}} - {{ task.get_status_display }}</span>
-            <p><a href="task/?pk={{ task.pk }}">Подробнее</a></p>
-        {% endfor %}
-</body>
-</html>
+{% block content %}
+
+      <h1>Задачи</h1>
+      {% for task in tasks %}
+          <h3>{{ task.description }}</h3><span>{{ task.status}} - {{ task.get_status_display }}</span>
+          <p><a href="{% url 'task_view' task.pk %}">Подробнее</a></p>
+      {% endfor %}
+
+{% endblock %}

@@ -1,33 +1,25 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block title %}Создание задачи{% endblock %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create</title>
-</head>
-<body>
 
-<h1>Create Task</h1>
-
-<form action="" method="post">
-    {% csrf_token %}
-
-    <label>Description:</label><br/>
-    <textarea name="description"></textarea><br/>
-    <label>Status:</label>
-    <br/>
-    <select name="status">
-        {% for value, status in statuses %}
-            <option value="{{ value }}">{{ status }}</option>
-        {% endfor %}
-    </select>
-    <br/>
-    <label>Date: yyyy-mm-dd</label><br/>
-    <input type="text" name="created_at"/><br/>
-    <br/>
-    <input type="submit" value="Send"/>
-</form><br/>
-<a href="/">На главную</a>
-</body>
-</html>
+{% block content %}
+    <h1>Create Task</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label>Description:</label><br/>
+        <textarea name="description"></textarea><br/>
+        <label>Status:</label>
+        <br/>
+        <select name="status">
+            {% for value, status in statuses %}
+                <option value="{{ value }}">{{ status }}</option>
+            {% endfor %}
+        </select>
+        <br/>
+        <label>Date: yyyy-mm-dd</label><br/>
+        <input type="text" name="created_at"/><br/>
+        <br/>
+        <input type="submit" value="Send"/>
+    </form><br/>
+{% endblock %}
 
