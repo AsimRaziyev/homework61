@@ -14,10 +14,22 @@
 
 {% block content %}
 
-      <h1>Задачи</h1>
-      {% for task in tasks %}
-          <h3>{{ task.description }}</h3><span>{{ task.status}} - {{ task.get_status_display }}</span>
-          <p><a href="{% url 'task_view' task.pk %}">Подробнее</a></p>
-      {% endfor %}
+<!--      <h1>Задачи</h1>-->
+<!--      {% for task in tasks %}-->
+<!--          <h3>{{ task.description }}</h3><span>{{ task.status}} - {{ task.get_status_display }}</span>-->
+<!--          <p><a href="{% url 'task_view' task.pk %}">Подробнее</a></p>-->
+<!--      {% endfor %}-->
+<h1>Задачи</h1>
+    <div class="row">
+        {% for task in tasks %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{% url 'task_view' task.pk %}" class="card-link"><h5 class="card-title">{{ task.description }}</h5></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

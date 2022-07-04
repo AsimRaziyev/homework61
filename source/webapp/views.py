@@ -27,3 +27,12 @@ def create_task(request):
             created_at = created_at
     new_task = Task.objects.create(description=description, status=status, created_at=created_at)
     return redirect("task_view", pk=new_task.pk)
+
+def delete_task(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == "GET":
+        pass
+        return render(request, "delete.html", {"task": task})
+    else:
+        task.delete()
+        return redirect("index")
