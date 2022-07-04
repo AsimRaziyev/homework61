@@ -13,12 +13,6 @@
 {% endblock %}
 
 {% block content %}
-
-<!--      <h1>Задачи</h1>-->
-<!--      {% for task in tasks %}-->
-<!--          <h3>{{ task.description }}</h3><span>{{ task.status}} - {{ task.get_status_display }}</span>-->
-<!--          <p><a href="{% url 'task_view' task.pk %}">Подробнее</a></p>-->
-<!--      {% endfor %}-->
 <h1>Задачи</h1>
     <div class="row">
         {% for task in tasks %}
@@ -31,5 +25,4 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}

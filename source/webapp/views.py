@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from webapp.models import Task
 from webapp.models import STATUS_CHOICES
+from webapp.forms import TaskForm
 
 
 def index_view(request):
@@ -28,6 +29,7 @@ def create_task(request):
     new_task = Task.objects.create(description=description, status=status, created_at=created_at)
     return redirect("task_view", pk=new_task.pk)
 
+
 def delete_task(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == "GET":
@@ -36,3 +38,23 @@ def delete_task(request, pk):
     else:
         task.delete()
         return redirect("index")
+
+
+def update_task(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == "GET":
+        form = TaskForm(initial={
+            "description": task.description,
+            "status": task.status,
+            "created_at": task.created_at
+        })
+        return render(request, "update.html", {"form": form})
+    else:
+        form = TaskForm(data=request.POST)
+        if form.is_valid():
+            task.description = form.cleaned_data.get("description")
+            task.status = form.cleaned_data.get("status")
+            task.created_at = form.cleaned_data.get("created_at")
+            task.save()
+            return redirect("index")
+        return render(request, "update.html", {"form": form})

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Изменение задач{% endblock %}
+
+{% block content %}
+<div class="card border-info mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h2>Изменить задачу</h2></div>
+  <div class="card-body">
+    <form action="" method="post">
+        {% include "partial/form.html" with button_text="Изменить"%}
+    </form><br/>
+  </div>
+</div>
+{% endblock %}

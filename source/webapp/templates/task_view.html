@@ -4,12 +4,10 @@
         <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Редактировать</a>
+        <a class="nav-link" href="{% url 'update_task' task.pk %}">Редактировать</a>
     </li>
     <li class="nav-item">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskleDeleteModal">
-            Удалить
-        </button>
+        <a class="nav-link" type="button"  data-bs-toggle="modal" data-bs-target="#taskleDeleteModal">Удалить</a>
     </li>
 {% endblock %}
 

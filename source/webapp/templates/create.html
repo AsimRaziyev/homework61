@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Создание задачи{% endblock %}
+{% block title %}Создание задач{% endblock %}
 
 
 {% block content %}
 <div class="card border-info mb-3" style="max-width: 18rem;">
-  <div class="card-header"><h2>Create Task</h2></div>
+  <div class="card-header"><h2>Создать задачу</h2></div>
   <div class="card-body">
     <form action="" method="post">
         {% csrf_token %}
@@ -21,7 +21,6 @@
         <label>Date: yyyy-mm-dd</label><br/>
         <input type="text" name="created_at"/><br/>
         <br/>
-<!--        <button type="button" class="btn btn-info" value="Send">Send</button>-->
         <input type="submit" value="Send"/>
     </form><br/>
   </div>
