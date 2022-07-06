@@ -17,17 +17,23 @@ def task_view(request, pk):
 
 def create_task(request):
     if request.method == "GET":
-        return render(request, "create.html", {"statuses": STATUS_CHOICES})
+        form = TaskForm()
+        return render(request, "create.html", {"form": form})
     else:
-        description = request.POST.get("description")
-        status = request.POST.get("status")
-        created_at = request.POST.get("created_at")
-        if created_at == "":
-            created_at = None
-        else:
-            created_at = created_at
-    new_task = Task.objects.create(description=description, status=status, created_at=created_at)
-    return redirect("task_view", pk=new_task.pk)
+        form = TaskForm(data=request.POST)
+        if form.is_valid():
+            task_name = form.cleaned_data.get("task_name")
+            description = form.cleaned_data.get("description")
+            status = form.cleaned_data.get("status")
+            created_at = form.cleaned_data.get("created_at")
+            if created_at == "":
+                created_at = None
+            else:
+                created_at = created_at
+            new_task = Task.objects.create(task_name=task_name, description=description, status=status,
+                                           created_at=created_at)
+            return redirect("task_view", pk=new_task.pk)
+        return render(request, "create.html", {"form": form})
 
 
 def delete_task(request, pk):
@@ -44,6 +50,7 @@ def update_task(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == "GET":
         form = TaskForm(initial={
+            "task_name": task.task_name,
             "description": task.description,
             "status": task.status,
             "created_at": task.created_at
@@ -52,6 +59,7 @@ def update_task(request, pk):
     else:
         form = TaskForm(data=request.POST)
         if form.is_valid():
+            task.task_name = form.cleaned_data.get("task_name")
             task.description = form.cleaned_data.get("description")
             task.status = form.cleaned_data.get("status")
             task.created_at = form.cleaned_data.get("created_at")
