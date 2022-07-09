@@ -17,6 +17,12 @@
     <div class="card-body"><label>Description:</label><h3>{{ task.description }}</h3>
     <label>Status:</label><h5 class="card-title">{{ task.status }}</h5>
         <label>Date:</label><p>{{ task.created_at|date:"Y-m-d" }}</p>
+        <label>Comment:</label>
+        {% for comment in task.comments.all %}
+        <p>{{ comment.text }}</p>
+        {% empty %}
+          <p>Комментариев нет</p>
+        {% endfor %}
         <label>ID:</label><p>{{ task.pk}}</p>
     </div>
 </div>
