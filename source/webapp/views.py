@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView
 from webapp.models import Task
-from webapp.models import STATUS_CHOICES
 from webapp.forms import TaskForm
+
+
 
 
 class IndexView(View):
@@ -30,16 +31,12 @@ def create_task(request):
     else:
         form = TaskForm(data=request.POST)
         if form.is_valid():
-            task_name = form.cleaned_data.get("task_name")
+            summary = form.cleaned_data.get("summary")
             description = form.cleaned_data.get("description")
-            status = form.cleaned_data.get("status")
-            created_at = form.cleaned_data.get("created_at")
-            if created_at == "":
-                created_at = None
-            else:
-                created_at = created_at
-            new_task = Task.objects.create(task_name=task_name, description=description, status=status,
-                                           created_at=created_at)
+            type_text = form.cleaned_data.get("type_text")
+            status_text = form.cleaned_data.get("status_text")
+            new_task = Task.objects.create(summary=summary, description=description,
+                                           type_text=type_text, status_text=status_text)
             return redirect("task_view", pk=new_task.pk)
         return render(request, "create.html", {"form": form})
 
@@ -54,23 +51,30 @@ def delete_task(request, pk):
         return redirect("index")
 
 
-def update_task(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    if request.method == "GET":
-        form = TaskForm(initial={
-            "task_name": task.task_name,
-            "description": task.description,
-            "status": task.status,
-            "created_at": task.created_at
-        })
-        return render(request, "update.html", {"form": form})
-    else:
+class UpdateTask(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        pk = kwargs.get("pk")
+        self.task = get_object_or_404(Task, pk=pk)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        if request.method == "GET":
+            form = TaskForm(initial={
+                "summary": self.task.summary,
+                "description": self.task.description,
+                "type_text": self.task.type_text,
+                "status_text": self.task.status_text
+            })
+            return render(request, "update.html", {"form": form})
+
+    def post(self, request, *args, **kwargs):
         form = TaskForm(data=request.POST)
         if form.is_valid():
-            task.task_name = form.cleaned_data.get("task_name")
-            task.description = form.cleaned_data.get("description")
-            task.status = form.cleaned_data.get("status")
-            task.created_at = form.cleaned_data.get("created_at")
-            task.save()
-            return redirect("index")
+            self.task.summary = form.cleaned_data.get("summary")
+            self.task.description = form.cleaned_data.get("description")
+            self.task.type_text = form.cleaned_data.get("type_text")
+            self.task.status_text = form.cleaned_data.get("status_text")
+            self.task.save()
+            return redirect("task_view", pk=self.task.pk)
         return render(request, "update.html", {"form": form})

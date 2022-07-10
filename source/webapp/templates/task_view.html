@@ -1,51 +1,66 @@
 {% extends "base.html" %}
 {% block nav %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'update_task' task.pk %}">Редактировать</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" type="button"  data-bs-toggle="modal" data-bs-target="#taskleDeleteModal">Удалить</a>
-    </li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'update_task' task.pk %}">Редактировать</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#taskleDeleteModal">Удалить</a>
+</li>
 {% endblock %}
 
 {% block content %}
 <div class="card border-info mb-3" style="max-width: 18rem;">
-    <div class="card-header"><label>Task name:</label><h3>{{ task.task_name }}</h3></div>
-    <div class="card-body"><label>Description:</label><h3>{{ task.description }}</h3>
-    <label>Status:</label><h5 class="card-title">{{ task.status }}</h5>
-        <label>Date:</label><p>{{ task.created_at|date:"Y-m-d" }}</p>
-        <label>Comment:</label>
-        {% for comment in task.comments.all %}
-        <p>{{ comment.text }}</p>
+    <div class="card-header"><label>Резюме:</label>
+        <h3>{{ task.summary }}</h3></div>
+    <div class="card-body"><label>Описание:</label>
+        <h3>{{ task.description }}</h3>
+        <h3>{{ task.type_text }}</h3>
+        <h3>{{ task.status_text }}</h3>
+        <label>Статус:</label>
+        {% for i in task.status.all %}
+             <p>{{ i.status_text }}</p>
         {% empty %}
-          <p>Комментариев нет</p>
+             <p>Статуса нет</p>
         {% endfor %}
-        <label>ID:</label><p>{{ task.pk}}</p>
+        <label>Тип:</label>
+        {% for i in task.type.all %}
+             <p>{{ i.type_text }}</p>
+        {% empty %}
+             <p>Типа нет</p>
+        {% endfor %}
+        <label>Комментарии:</label>
+        {% for comment in task.comments.all %}
+             <p>{{ comment.text }}</p>
+        {% empty %}
+             <p>Комментариев нет</p>
+        {% endfor %}
+        <label>ID:</label>
+        <p>{{ task.pk}}</p>
     </div>
 </div>
 
 <div class="modal fade" id="taskleDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="taskleDeleteModal">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Вы уверены что хотите удалить запись {{ task.description }}?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                    <form action="{% url 'delete_task' task.pk %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-secondary" type="submit">Да</button>
-                    </form>
-                </div>
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskleDeleteModal">Удалить Задачу</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены что хотите удалить запись {{ task.summary }}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                <form action="{% url 'delete_task' task.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary" type="submit">Да</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
