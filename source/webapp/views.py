@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from webapp.models import Task
-from webapp.forms import TaskForm
-
-
+from webapp.forms import TaskForm, SearchForm
 
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
-        tasks = Task.objects.order_by("-created_at")
-        context = {"tasks": tasks}
-        return render(request, "index.html", context)
+        create_task_form = TaskForm()
+        return index_view_partial(request, create_task_form, status=200)
+
+
+class MyRedirectView(RedirectView):
+    url = "https://www.google.ru/"
 
 
 class TaskView(TemplateView):
@@ -24,21 +25,29 @@ class TaskView(TemplateView):
         return super().get_context_data(**kwargs)
 
 
+def index_view_partial(request, create_task_form, status):
+    search_form = SearchForm(data=request.GET)
+    tasks = Task.objects.all()
+    if search_form.is_valid():
+        search_value = search_form.cleaned_data.get("search")
+        tasks = tasks.filter(summary__contains=search_value)
+    tasks = tasks.order_by("-updated_at")
+    context = {"tasks": tasks, "search_form": search_form, "create_task_form": create_task_form}
+    return render(request, "index.html", context, status=status)
+
+
 def create_task(request):
-    if request.method == "GET":
-        form = TaskForm()
-        return render(request, "create.html", {"form": form})
-    else:
-        form = TaskForm(data=request.POST)
-        if form.is_valid():
-            summary = form.cleaned_data.get("summary")
-            description = form.cleaned_data.get("description")
-            type_text = form.cleaned_data.get("type_text")
-            status_text = form.cleaned_data.get("status_text")
-            new_task = Task.objects.create(summary=summary, description=description,
-                                           type_text=type_text, status_text=status_text)
+    if request.method == "POST":
+        create_task_form = TaskForm(data=request.POST)
+        if create_task_form.is_valid():
+            summary = create_task_form.cleaned_data.get("summary")
+            description = create_task_form.cleaned_data.get("description")
+            type = create_task_form.cleaned_data.get("type")
+            status = create_task_form.cleaned_data.get("status")
+            new_task = Task.objects.create(summary=summary, description=description, type=type,
+                                           status=status)
             return redirect("task_view", pk=new_task.pk)
-        return render(request, "create.html", {"form": form})
+        return index_view_partial(request, create_task_form, status=400)
 
 
 def delete_task(request, pk):
@@ -63,8 +72,8 @@ class UpdateTask(View):
             form = TaskForm(initial={
                 "summary": self.task.summary,
                 "description": self.task.description,
-                "type_text": self.task.type_text,
-                "status_text": self.task.status_text
+                "type": self.task.type,
+                "status": self.task.status
             })
             return render(request, "update.html", {"form": form})
 
@@ -73,8 +82,8 @@ class UpdateTask(View):
         if form.is_valid():
             self.task.summary = form.cleaned_data.get("summary")
             self.task.description = form.cleaned_data.get("description")
-            self.task.type_text = form.cleaned_data.get("type_text")
-            self.task.status_text = form.cleaned_data.get("status_text")
+            self.task.type = form.cleaned_data.get("type")
+            self.task.status = form.cleaned_data.get("status")
             self.task.save()
             return redirect("task_view", pk=self.task.pk)
         return render(request, "update.html", {"form": form})

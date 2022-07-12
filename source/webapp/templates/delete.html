@@ -4,7 +4,7 @@
 {% block content %}
 <form action="" method="post">
 {% csrf_token %}
-    <h2>Вы уверены что хотите удалить статью {{ task.description }}?</h2>
+    <h2>Вы уверены что хотите удалить статью {{ task.summary }}?</h2>
 
     <button class="btn btn-danger" type="submit">Да</button>
     <a class="btn btn-primary" href="{% url 'index' %}">Нет</a>

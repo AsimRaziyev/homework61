@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -14,7 +15,10 @@ class BaseModel(models.Model):
 class Task(BaseModel):
     summary = models.CharField(max_length=100, null=False, verbose_name="Pезюме")
     description = models.TextField(max_length=3000, null=True, verbose_name="Описание")
-
+    status = models.ForeignKey("webapp.Statuses", null=True, on_delete=models.PROTECT,
+                               related_name="status", verbose_name="Статус", )
+    type = models.ForeignKey("webapp.Types", null=True,  on_delete=models.PROTECT,
+                             related_name="type", verbose_name="Тип", )
 
     def __str__(self):
         return f"{self.id}. {self.summary}: {self.description}"
@@ -39,11 +43,8 @@ class Comment(BaseModel):
         verbose_name_plural = "Комментарии"
 
 
-class Status(BaseModel):
-    status_text = models.CharField(max_length=50, null=False, verbose_name="Статус")
-    status1 = models.ForeignKey("webapp.Task", on_delete=models.PROTECT,
-                               related_name="status", verbose_name="Статус", )
-
+class Statuses(BaseModel):
+    status_text = models.CharField(max_length=50, null=True, verbose_name="Статус")
 
     def __str__(self):
         return f"{self.id}. {self.status_text}"
@@ -54,11 +55,8 @@ class Status(BaseModel):
         verbose_name_plural = "Статусы"
 
 
-class Type(BaseModel):
-    type_text = models.CharField(max_length=50, null=False, verbose_name="Тип")
-    type1 = models.ForeignKey("webapp.Task", on_delete=models.PROTECT,
-                             related_name="type", verbose_name="Тип", )
-
+class Types(BaseModel):
+    type_text = models.CharField(max_length=50, null=True, verbose_name="Тип")
 
     def __str__(self):
         return f"{self.id}. {self.type_text}"

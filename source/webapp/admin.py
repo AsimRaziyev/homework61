@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from webapp.models import Task, Status, Comment, Type
+from webapp.models import Task, Statuses, Comment, Types
 
 
 class TaskAdmin(admin.ModelAdmin):
@@ -16,18 +16,18 @@ class TaskAdmin(admin.ModelAdmin):
 admin.site.register(Task, TaskAdmin)
 
 
-class StatusAdmin(admin.ModelAdmin):
+class StatusesAdmin(admin.ModelAdmin):
     list_display = ['id', 'status_text', 'created_at']
 
 
-admin.site.register(Status, StatusAdmin)
+admin.site.register(Statuses, StatusesAdmin)
 
 
-class TypeAdmin(admin.ModelAdmin):
+class TypesAdmin(admin.ModelAdmin):
     list_display = ['id', 'type_text', 'created_at']
 
 
-admin.site.register(Type, TypeAdmin)
+admin.site.register(Types, TypesAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
