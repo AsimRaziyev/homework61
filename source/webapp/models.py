@@ -13,7 +13,7 @@ class BaseModel(models.Model):
 
 
 class Task(BaseModel):
-    summary = models.CharField(max_length=100, null=False, verbose_name="Pезюме")
+    summary = models.CharField(max_length=100, null=True, verbose_name="Pезюме")
     description = models.TextField(max_length=3000, null=True, verbose_name="Описание")
     status = models.ForeignKey("webapp.Statuses", null=True, on_delete=models.PROTECT,
                                related_name="status", verbose_name="Статус", )

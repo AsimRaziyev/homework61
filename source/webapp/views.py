@@ -44,8 +44,10 @@ def create_task(request):
             description = create_task_form.cleaned_data.get("description")
             type = create_task_form.cleaned_data.get("type")
             status = create_task_form.cleaned_data.get("status")
+            tags = create_task_form.cleaned_data.pop("tags")
             new_task = Task.objects.create(summary=summary, description=description, type=type,
                                            status=status)
+            new_task.tags.set(tags)
             return redirect("task_view", pk=new_task.pk)
         return index_view_partial(request, create_task_form, status=400)
 
@@ -73,7 +75,8 @@ class UpdateTask(View):
                 "summary": self.task.summary,
                 "description": self.task.description,
                 "type": self.task.type,
-                "status": self.task.status
+                "status": self.task.status,
+                # "tags": self.tags.all()
             })
             return render(request, "update.html", {"form": form})
 
@@ -84,6 +87,7 @@ class UpdateTask(View):
             self.task.description = form.cleaned_data.get("description")
             self.task.type = form.cleaned_data.get("type")
             self.task.status = form.cleaned_data.get("status")
+            self.task.tags.set(form.cleaned_data.pop("tags"))
             self.task.save()
             return redirect("task_view", pk=self.task.pk)
         return render(request, "update.html", {"form": form})

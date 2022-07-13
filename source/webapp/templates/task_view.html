@@ -21,19 +21,25 @@
         {% if task.status %}
              <p>{{ task.status }}</p>
         {% else %}
-             <p>Статуса нет</p>
+             <p>Статусов нет</p>
         {% endif %}
         <label>Тип:</label>
         {% if task.type %}
              <p>{{ task.type }}</p>
         {% else %}
-             <p>Типа нет</p>
+             <p>Типов нет</p>
         {% endif %}
         <label>Комментарии:</label>
         {% for comment in task.comments.all %}
              <p>{{ comment.text }}</p>
         {% empty %}
              <p>Комментариев нет</p>
+        {% endfor %}
+        <label>Тэги:</label>
+        {% for tag in task.tags.all %}
+             <p>{{ tag.name }}</p>
+        {% empty %}
+             <p>Тэгов нет</p>
         {% endfor %}
         <label>ID:</label>
         <p>{{ task.pk}}</p>
