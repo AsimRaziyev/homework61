@@ -19,6 +19,8 @@ class Task(BaseModel):
                                related_name="status", verbose_name="Статус", )
     type = models.ForeignKey("webapp.Types", null=True,  on_delete=models.PROTECT,
                              related_name="type", verbose_name="Тип", )
+    tags = models.ManyToManyField("webapp.Tag", related_name="tasks", blank=True)
+
 
     def __str__(self):
         return f"{self.id}. {self.summary}: {self.description}"
@@ -65,3 +67,17 @@ class Types(BaseModel):
         db_table = "type"
         verbose_name = "Тип"
         verbose_name_plural = "Типы"
+
+
+class Tag(BaseModel):
+    name = models.CharField(max_length=31, verbose_name='Тег')
+
+
+    def __str__(self):
+
+        return self.name
+
+    class Meta:
+        db_table = "tags"
+        verbose_name = "Тэг"
+        verbose_name_plural = "Тэги"
