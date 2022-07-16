@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block nav %}
-<li class="nav-item">
-    <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
-</li>
+<!--<li class="nav-item">-->
+<!--    <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>-->
+<!--</li>-->
 <li class="nav-item">
     <a class="nav-link" href="{% url 'update_task' task.pk %}">Редактировать</a>
 </li>
@@ -24,11 +24,11 @@
              <p>Статусов нет</p>
         {% endif %}
         <label>Тип:</label>
-        {% if task.type %}
-             <p>{{ task.type }}</p>
-        {% else %}
+        {% for type in task.types.all %}
+             <p>{{ type.type_text }}</p>
+        {% empty %}
              <p>Типов нет</p>
-        {% endif %}
+        {% endfor %}
         <label>Комментарии:</label>
         {% for comment in task.comments.all %}
              <p>{{ comment.text }}</p>

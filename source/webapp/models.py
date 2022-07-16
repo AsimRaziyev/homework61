@@ -17,10 +17,8 @@ class Task(BaseModel):
     description = models.TextField(max_length=3000, null=True, verbose_name="Описание")
     status = models.ForeignKey("webapp.Statuses", null=True, on_delete=models.PROTECT,
                                related_name="status", verbose_name="Статус", )
-    type = models.ForeignKey("webapp.Types", null=True,  on_delete=models.PROTECT,
-                             related_name="type", verbose_name="Тип", )
     tags = models.ManyToManyField("webapp.Tag", related_name="tasks", blank=True)
-
+    types = models.ManyToManyField("webapp.Types", related_name="tasks", blank=True)
 
     def __str__(self):
         return f"{self.id}. {self.summary}: {self.description}"
@@ -37,7 +35,7 @@ class Comment(BaseModel):
     task = models.ForeignKey("webapp.Task", on_delete=models.CASCADE, related_name="comments", verbose_name="Задача")
 
     def __str__(self):
-        return f"{self.id}. {self.text}: {self.author}"
+        return f"{self.id}. {self.text}: {self.author}.{self.task}"
 
     class Meta:
         db_table = "comments"
@@ -58,7 +56,8 @@ class Statuses(BaseModel):
 
 
 class Types(BaseModel):
-    type_text = models.CharField(max_length=50, null=True, verbose_name="Тип")
+    type_text = models.CharField(max_length=50, null=True, verbose_name="Текст")
+
 
     def __str__(self):
         return f"{self.id}. {self.type_text}"
@@ -70,12 +69,10 @@ class Types(BaseModel):
 
 
 class Tag(BaseModel):
-    name = models.CharField(max_length=31, verbose_name='Тег')
-
+    name = models.CharField(max_length=31, verbose_name='Тэг')
 
     def __str__(self):
-
-        return self.name
+        return f"{self.name}"
 
     class Meta:
         db_table = "tags"

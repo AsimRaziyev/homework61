@@ -1,7 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from webapp.models import Task, Statuses, Comment, Types
+from webapp.models import Task, Statuses, Comment, Types, Tag
+
+
 
 
 class TaskAdmin(admin.ModelAdmin):
@@ -35,3 +37,10 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Comment, CommentAdmin)
+
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'created_at']
+
+
+admin.site.register(Tag, TagAdmin)

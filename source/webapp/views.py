@@ -42,12 +42,12 @@ def create_task(request):
         if create_task_form.is_valid():
             summary = create_task_form.cleaned_data.get("summary")
             description = create_task_form.cleaned_data.get("description")
-            type = create_task_form.cleaned_data.get("type")
             status = create_task_form.cleaned_data.get("status")
             tags = create_task_form.cleaned_data.pop("tags")
-            new_task = Task.objects.create(summary=summary, description=description, type=type,
-                                           status=status)
+            types = create_task_form.cleaned_data.pop("types")
+            new_task = Task.objects.create(summary=summary, description=description, status=status)
             new_task.tags.set(tags)
+            new_task.types.set(types)
             return redirect("task_view", pk=new_task.pk)
         return index_view_partial(request, create_task_form, status=400)
 
@@ -74,9 +74,9 @@ class UpdateTask(View):
             form = TaskForm(initial={
                 "summary": self.task.summary,
                 "description": self.task.description,
-                "type": self.task.type,
+                'types': self.task.types.all(),
                 "status": self.task.status,
-                # "tags": self.tags.all()
+                "tags": self.task.tags.all()
             })
             return render(request, "update.html", {"form": form})
 
@@ -85,9 +85,10 @@ class UpdateTask(View):
         if form.is_valid():
             self.task.summary = form.cleaned_data.get("summary")
             self.task.description = form.cleaned_data.get("description")
-            self.task.type = form.cleaned_data.get("type")
+            self.task.types.set(form.cleaned_data.pop("types"))
             self.task.status = form.cleaned_data.get("status")
             self.task.tags.set(form.cleaned_data.pop("tags"))
             self.task.save()
+
             return redirect("task_view", pk=self.task.pk)
         return render(request, "update.html", {"form": form})
