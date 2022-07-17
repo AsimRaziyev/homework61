@@ -1,7 +1,5 @@
 from django.db import models
-
-
-# Create your models here.
+from webapp.validate import validate_summary
 
 
 class BaseModel(models.Model):
@@ -13,7 +11,7 @@ class BaseModel(models.Model):
 
 
 class Task(BaseModel):
-    summary = models.CharField(max_length=100, null=True, verbose_name="Pезюме")
+    summary = models.CharField(max_length=100, null=True, verbose_name="Pезюме", validators=[validate_summary])
     description = models.TextField(max_length=3000, null=True, verbose_name="Описание")
     status = models.ForeignKey("webapp.Statuses", null=True, on_delete=models.PROTECT,
                                related_name="status", verbose_name="Статус", )

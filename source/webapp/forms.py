@@ -1,20 +1,23 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import widgets
+from webapp.models import Task
 
-from webapp.models import Types, Statuses, Tag
 
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ["summary", "description", "status", "tags", "types"]
+        widgets = {
+            "tags": widgets.CheckboxSelectMultiple,
+            "types": widgets.CheckboxSelectMultiple,
+            "description": widgets.Textarea(attrs={"placeholder": "введите текст", "cols": 30, "rows": 3})
+        }
 
-class TaskForm(forms.Form):
-    summary = forms.CharField(max_length=50, required=True, label="Резюме:")
-    description = forms.CharField(max_length=3000, required=True, label='Описание:',
-                                  widget=widgets.Textarea(attrs={"cols": 30, "rows": 3}))
-    status = forms.ModelChoiceField(queryset=Statuses.objects.all(), label="Статус:")
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False,
-                                          widget=forms.CheckboxSelectMultiple,
-                                          label="Тэг:")
-    types = forms.ModelMultipleChoiceField(queryset=Types.objects.all(), required=True,
-                                           widget=forms.CheckboxSelectMultiple,
-                                           label="Тип:")
+    def clean(self):
+        if self.cleaned_data.get("summary") == self.cleaned_data.get("description"):
+            raise ValidationError("Название и описание не могут совпадать")
+        return super().clean()
 
 
 class SearchForm(forms.Form):

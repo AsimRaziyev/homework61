@@ -23,6 +23,12 @@
         {% else %}
              <p>Статусов нет</p>
         {% endif %}
+        <label>Тэги:</label>
+        {% for tag in task.tags.all %}
+             <p>{{ tag.name }}</p>
+        {% empty %}
+             <p>Тэгов нет</p>
+        {% endfor %}
         <label>Тип:</label>
         {% for type in task.types.all %}
              <p>{{ type.type_text }}</p>
@@ -34,12 +40,6 @@
              <p>{{ comment.text }}</p>
         {% empty %}
              <p>Комментариев нет</p>
-        {% endfor %}
-        <label>Тэги:</label>
-        {% for tag in task.tags.all %}
-             <p>{{ tag.name }}</p>
-        {% empty %}
-             <p>Тэгов нет</p>
         {% endfor %}
         <label>ID:</label>
         <p>{{ task.pk}}</p>
