@@ -4,6 +4,12 @@ from django.contrib import admin
 from webapp.models import Task, Statuses, Comment, Types, Tag
 
 
+class TagInline(admin.TabularInline):
+    model = Task.tags.through
+
+
+class TypesInline(admin.TabularInline):
+    model = Task.types.through
 
 
 class TaskAdmin(admin.ModelAdmin):
@@ -13,6 +19,8 @@ class TaskAdmin(admin.ModelAdmin):
     search_fields = ['description', 'summary']
     fields = ['summary', 'author', 'description', 'updated_at']
     readonly_fields = ['updated_at']
+    # filter_horizontal = ["tags"]
+    inlines = [TagInline, TypesInline]
 
 
 admin.site.register(Task, TaskAdmin)
@@ -27,6 +35,7 @@ admin.site.register(Statuses, StatusesAdmin)
 
 class TypesAdmin(admin.ModelAdmin):
     list_display = ['id', 'type_text', 'created_at']
+    inlines = [TypesInline]
 
 
 admin.site.register(Types, TypesAdmin)
@@ -41,6 +50,7 @@ admin.site.register(Comment, CommentAdmin)
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'created_at']
+    inlines = [TagInline]
 
 
 admin.site.register(Tag, TagAdmin)
