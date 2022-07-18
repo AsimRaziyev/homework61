@@ -7,6 +7,12 @@ def validate_summary(value):
     return value
 
 
+def validate_author(value):
+    if len(value) > 50:
+        raise ValidationError("Имя должен содержать до 50 символов")
+    return value
+
+
 def validate_description(value):
     if len(value) > 3000:
         raise ValidationError("Текст должен содержать до 3000 символов")

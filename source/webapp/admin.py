@@ -7,11 +7,11 @@ from webapp.models import Task, Statuses, Comment, Types, Tag
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['id', 'description', 'summary', 'created_at']
+    list_display = ['id', 'summary', 'author', 'description', 'created_at']
     list_display_links = ['description']
     list_filter = ['summary']
     search_fields = ['description', 'summary']
-    fields = ['description', 'summary', 'updated_at']
+    fields = ['summary', 'author', 'description', 'updated_at']
     readonly_fields = ['updated_at']
 
 

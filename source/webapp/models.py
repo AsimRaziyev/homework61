@@ -1,5 +1,5 @@
 from django.db import models
-from webapp.validate import validate_summary, validate_description
+from webapp.validate import validate_summary, validate_description, validate_author
 
 
 class BaseModel(models.Model):
@@ -13,6 +13,7 @@ class BaseModel(models.Model):
 class Task(BaseModel):
     summary = models.CharField(max_length=100, null=True,
                                verbose_name="Pезюме", validators=[validate_summary])
+    author = models.CharField(max_length=50, verbose_name="Автор", default="Unknown", validators=[validate_author])
     description = models.TextField(max_length=3000, null=True,
                                    verbose_name="Описание", validators=[validate_description])
     status = models.ForeignKey("webapp.Statuses", null=True, on_delete=models.PROTECT,
@@ -21,7 +22,7 @@ class Task(BaseModel):
     types = models.ManyToManyField("webapp.Types", related_name="tasks", blank=True)
 
     def __str__(self):
-        return f"{self.id}. {self.summary}: {self.description}"
+        return f"{self.id}. {self.summary}: {self.author}.{self.description}"
 
     class Meta:
         db_table = "tasks"

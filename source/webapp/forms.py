@@ -7,7 +7,7 @@ from webapp.models import Task
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["summary", "description", "status", "tags", "types"]
+        fields = ["summary", "author", "description", "status", "tags", "types"]
         widgets = {
             "tags": widgets.CheckboxSelectMultiple,
             "types": widgets.CheckboxSelectMultiple,
