@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
 {% block nav %}
-<!--    <li class="nav-item">-->
-<!--        {% csrf_token %}-->
-<!--        <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>-->
-<!--    </li>-->
+    <li class="nav-item">
+        {% csrf_token %}
+        <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
+    </li>
 {% block search %}
 <!--            <form class="d-flex" >-->
 <!--            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
 <!--            <button class="btn btn-outline-success" type="submit">Search</button>-->
 <!--            </form>-->
-    <form action="{% url 'index' %}" method="get">
-        {% include "partial/form.html" with button_text="Найти" form=search_form %}
-    </form>
+<form  class="d-flex" action="{% url 'index' %}" method="get">
+    {% include "partial/form.html" with button_text="Найти" form=search_form %}
+</form>
 {% endblock %}
 {% endblock %}
 
@@ -20,7 +20,7 @@
 <h1>Задачи</h1>
     <div class="row">
         {% for task in tasks %}
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <a href="{% url 'task_view' task.pk %}" class="card-link" title="Просмотр задачи"><h5 class="card-title">{{ task.summary }}</h5></a>
@@ -29,8 +29,4 @@
             </div>
         {% endfor %}
     </div>
-    <form action="{% url 'create_task' %}" method="post">
-        {% csrf_token %}
-        {% include "partial/form.html" with button_text="Создать" form=create_task_form %}
-    </form>
 {% endblock %}
