@@ -12,7 +12,7 @@ class BaseModel(models.Model):
 
 class Task(BaseModel):
     summary = models.CharField(max_length=100, null=True,
-                               verbose_name="Pезюме")
+                               verbose_name="Pезюме", validators=[validate_summary])
     author = models.CharField(max_length=50, verbose_name="Автор", default="Unknown", validators=[validate_author])
     description = models.TextField(max_length=3000, null=True,
                                    verbose_name="Описание", validators=[validate_description])
