@@ -12,40 +12,42 @@
 {% endblock %}
 
 {% block content %}
-<div class="card border-info mb-3" style="max-width: 18rem;">
-    <div class="card-header"><label>Резюме:</label>
-        <h3>{{ task.summary }}</h3></div>
-    <div class="card-body"><label>Автор:</label>
-        <h3>{{ task.author }}</h3></div>
-    <div class="card-body"><label>Описание:</label>
-        <h3>{{ task.description }}</h3>
-        <label>Статус:</label>
+<div class="card border-info mb-3" style="width: 18rem;">
+  <div class="card-header"><label>Резюме:</label>
+        <h3>{{ task.summary }}</h3>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><label>Автор:</label>
+        <h3>{{ task.author }}</h3></li>
+    <li class="list-group-item"><label>Описание:</label>
+        <h3>{{ task.description }}</h3></li>
+    <li class="list-group-item"><label>Статус:</label>
         {% if task.status %}
-             <p>{{ task.status }}</p>
+             <h5>{{ task.status }}</h5>
         {% else %}
-             <p>Статусов нет</p>
-        {% endif %}
-        <label>Тэги:</label>
+             <h5>Статусов нет</h5>
+        {% endif %}</li>
+      <li class="list-group-item"><label>Тэги:</label>
         {% for tag in task.tags.all %}
-             <p>{{ tag.name }}</p>
+             <h5>{{ tag.name }}</h5>
         {% empty %}
-             <p>Тэгов нет</p>
-        {% endfor %}
-        <label>Тип:</label>
+             <h5>Тэгов нет</h5>
+        {% endfor %}</li>
+      <li class="list-group-item"><label>Тип:</label>
         {% for type in task.types.all %}
-             <p>{{ type.type_text }}</p>
+             <h5>{{ type.type_text }}</h5>
         {% empty %}
-             <p>Типов нет</p>
-        {% endfor %}
-        <label>Комментарии:</label>
+             <h5>Типов нет</h5>
+        {% endfor %}</li>
+      <li class="list-group-item"><label>Комментарии:</label>
         {% for comment in task.comments.all %}
-             <p>{{ comment.text }}</p>
+             <h5>{{ comment.text }}</h5>
         {% empty %}
-             <p>Комментариев нет</p>
-        {% endfor %}
-        <label>ID:</label>
-        <p>{{ task.pk}}</p>
-    </div>
+             <h5>Комментариев нет</h5>
+        {% endfor %}</li>
+        <li class="list-group-item"><label>ID:</label>
+        <p>{{ task.pk}}</p></li>
+  </ul>
 </div>
 
 <div class="modal fade" id="taskleDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
