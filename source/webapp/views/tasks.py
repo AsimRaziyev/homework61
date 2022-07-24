@@ -2,10 +2,10 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.views.generic import TemplateView, RedirectView, FormView, ListView
+from django.views.generic import TemplateView, RedirectView, FormView, ListView, DetailView
 from webapp.models import Task
 from webapp.forms import TaskForm, SearchForm
-from webapp.base_view import FormView as CustomFormView
+from webapp.views.base_view import FormView as CustomFormView
 
 
 class IndexView(ListView):
@@ -53,25 +53,25 @@ class MyRedirectView(RedirectView):
     url = "https://www.google.ru/"
 
 
-class TaskView(TemplateView):
+class TaskView(DetailView):
     template_name = "tasks/task_view.html"
+    model = Task
 
     def get_context_data(self, **kwargs):
-        pk = kwargs.get("pk")
-        task = get_object_or_404(Task, pk=pk)
-        kwargs["task"] = task
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.order_by("-created_at")
+        return context
 
 
-def index_view_partial(request, create_task_form, status):
-    search_form = SearchForm(data=request.GET)
-    tasks = Task.objects.all()
-    if search_form.is_valid():
-        search_value = search_form.cleaned_data.get("search")
-        tasks = tasks.filter(summary__contains=search_value)
-    tasks = tasks.order_by("-updated_at")
-    context = {"tasks": tasks, "search_form": search_form, "create_task_form": create_task_form}
-    return render(request, "tasks/index.html", context, status=status)
+# def index_view_partial(request, create_task_form, status):
+#     search_form = SearchForm(data=request.GET)
+#     tasks = Task.objects.all()
+#     if search_form.is_valid():
+#         search_value = search_form.cleaned_data.get("search")
+#         tasks = tasks.filter(summary__contains=search_value)
+#     tasks = tasks.order_by("-updated_at")
+#     context = {"tasks": tasks, "search_form": search_form, "create_task_form": create_task_form}
+#     return render(request, "tasks/index.html", context, status=status)
 
 
 class CreateTask(CustomFormView):

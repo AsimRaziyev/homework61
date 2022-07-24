@@ -40,7 +40,7 @@
              <h5>Типов нет</h5>
         {% endfor %}</li>
       <li class="list-group-item"><label>Комментарии:</label>
-        {% for comment in task.comments.all %}
+        {% for comment in comments %}
              <h5>{{ comment.text }}</h5>
         {% empty %}
              <h5>Комментариев нет</h5>

@@ -1,6 +1,21 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView
+
+
+class DetailView(TemplateView):
+    context_key = 'object'
+    model = None
+    key_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[self.context_key] = self.get_object()
+        return context
+
+    def get_object(self):
+        pk = self.kwargs.get(self.key_kwarg)
+        return get_object_or_404(self.model, pk=pk)
 
 
 class ListView(TemplateView):
@@ -44,17 +59,3 @@ class FormView(View):
     def form_isvalid(self, form):
         context = self.get_context(form=form)
         return render(self.request, self.template_name, context)
-
-# class CreateTask(FormView):
-#     form_class = TaskForm
-#     template_name = "create.html"
-#
-#     def form_valid(self, form):
-#         tags = form.cleaned_data.pop("tags")
-#         self.task = Task.objects.create(**form.cleaned_data)
-#         self.task.tags.set(tags)
-#         return super().form_valid(form)
-#
-#     def get_redirect_url(self):
-#         return redirect("task_view", pk=self.task.pk)
-
