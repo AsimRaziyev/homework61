@@ -6,13 +6,9 @@
         <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
     </li>
 {% block search %}
-<!--            <form class="d-flex" >-->
-<!--            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--            <button class="btn btn-outline-success" type="submit">Search</button>-->
-<!--            </form>-->
-<form  class="d-flex" action="{% url 'index' %}" method="get">
-    {% include "partial/form.html" with button_text="Найти" form=search_form %}
-</form>
+    <li class="nav-item">
+        <a class="nav-link">{% include "partial/search.html" %}</a>
+    </li>
 {% endblock %}
 {% endblock %}
 
@@ -27,6 +23,10 @@
                     </div>
                 </div>
             </div>
+        {% empty %}
         {% endfor %}
+        {% if is_paginated %}
+            {% include "partial/pagination.html" %}
+        {% endif %}
     </div>
 {% endblock %}
