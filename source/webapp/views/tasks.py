@@ -10,7 +10,7 @@ from webapp.base_view import FormView as CustomFormView
 
 class IndexView(ListView):
     model = Task
-    template_name = "index.html"
+    template_name = "tasks/index.html"
     context_object_name = "tasks"
     ordering = "-updated_at"
     paginate_by = 5
@@ -54,7 +54,7 @@ class MyRedirectView(RedirectView):
 
 
 class TaskView(TemplateView):
-    template_name = "task_view.html"
+    template_name = "tasks/task_view.html"
 
     def get_context_data(self, **kwargs):
         pk = kwargs.get("pk")
@@ -71,12 +71,12 @@ def index_view_partial(request, create_task_form, status):
         tasks = tasks.filter(summary__contains=search_value)
     tasks = tasks.order_by("-updated_at")
     context = {"tasks": tasks, "search_form": search_form, "create_task_form": create_task_form}
-    return render(request, "index.html", context, status=status)
+    return render(request, "tasks/index.html", context, status=status)
 
 
 class CreateTask(CustomFormView):
     form_class = TaskForm
-    template_name = "create.html"
+    template_name = "tasks/create.html"
 
     def form_valid(self, form):
         self.task = form.save()
@@ -88,7 +88,7 @@ class CreateTask(CustomFormView):
 
 class UpdateTask(FormView):
     form_class = TaskForm
-    template_name = "update.html"
+    template_name = "tasks/update.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.task = self.get_objects()
@@ -114,7 +114,7 @@ def delete_task(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == "GET":
         pass
-        return render(request, "delete.html", {"task": task})
+        return render(request, "tasks/delete.html", {"task": task})
     else:
         task.delete()
         return redirect("index")
