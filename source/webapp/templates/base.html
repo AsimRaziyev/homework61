@@ -25,6 +25,9 @@
                 {% block nav %}
 
                 {% endblock %}
+                <li class="search_nav">
+                    {% include "partial/search.html" with form=search_form %}
+                </li>
             </ul>
         </div>
     </div>

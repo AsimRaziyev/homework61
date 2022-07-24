@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
+{% load request_get_replace_page %}
 {% block nav %}
     <li class="nav-item">
         {% csrf_token %}
         <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
     </li>
-{% block search %}
-    <li class="nav-item">
-        <a class="nav-link">{% include "partial/search.html" %}</a>
-    </li>
-{% endblock %}
 {% endblock %}
 
 {% block content %}
+
+     <a href="?{{ request|get_sort:'updated_at' }}">Сортировать по дате изменения</a>
+     <a href="?{{ request|get_sort:'summary' }}">Сортировать по названиям</a>
+
 <h1>Задачи</h1>
     <div class="row">
         {% for task in tasks %}

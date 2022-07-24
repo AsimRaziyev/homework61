@@ -18,12 +18,16 @@ class IndexView(ListView):
     def get(self, request, *args, **kwargs):
         self.form = self.get_search_form()
         self.search_value = self.get_search_value()
+        self.sort_value = self.get_sort_value()
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
+        tasks = Task.objects.all()
         if self.search_value:
-            return Task.objects.filter(Q(author__icontains=self.search_value) | Q(summary__icontains=self.search_value))
-        return Task.objects.all()
+            tasks = tasks.filter(Q(author__icontains=self.search_value) | Q(summary__icontains=self.search_value))
+        if self.sort_value:
+            tasks = tasks.order_by(self.sort_value)
+        return tasks
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
@@ -40,6 +44,9 @@ class IndexView(ListView):
     def get_search_value(self):
         if self.form.is_valid():
             return self.form.cleaned_data.get("search")
+
+    def get_sort_value(self):
+        return self.request.GET.get("sort")
 
 
 class MyRedirectView(RedirectView):
