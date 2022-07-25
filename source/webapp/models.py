@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from webapp.validate import validate_summary, validate_description, validate_author
 
 
@@ -23,6 +24,9 @@ class Task(BaseModel):
 
     def __str__(self):
         return f"{self.id}. {self.summary}: {self.author}.{self.description}"
+
+    def get_absolute_url(self):
+        return reverse("task_view", kwargs={"pk": self.pk})
 
     class Meta:
         db_table = "tasks"

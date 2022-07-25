@@ -2,10 +2,9 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.views.generic import TemplateView, RedirectView, FormView, ListView, DetailView
+from django.views.generic import RedirectView, FormView, ListView, DetailView, CreateView
 from webapp.models import Task
 from webapp.forms import TaskForm, SearchForm
-from webapp.views.base_view import FormView as CustomFormView
 
 
 class IndexView(ListView):
@@ -63,27 +62,9 @@ class TaskView(DetailView):
         return context
 
 
-# def index_view_partial(request, create_task_form, status):
-#     search_form = SearchForm(data=request.GET)
-#     tasks = Task.objects.all()
-#     if search_form.is_valid():
-#         search_value = search_form.cleaned_data.get("search")
-#         tasks = tasks.filter(summary__contains=search_value)
-#     tasks = tasks.order_by("-updated_at")
-#     context = {"tasks": tasks, "search_form": search_form, "create_task_form": create_task_form}
-#     return render(request, "tasks/index.html", context, status=status)
-
-
-class CreateTask(CustomFormView):
+class CreateTask(CreateView):
     form_class = TaskForm
     template_name = "tasks/create.html"
-
-    def form_valid(self, form):
-        self.task = form.save()
-        return super().form_valid(form)
-
-    def get_redirect_url(self):
-        return redirect("task_view", pk=self.task.pk)
 
 
 class UpdateTask(FormView):
