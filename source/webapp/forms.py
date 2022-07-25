@@ -2,7 +2,7 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import widgets
-from webapp.models import Task
+from webapp.models import Task, Comment
 
 
 class TaskForm(forms.ModelForm):
@@ -29,3 +29,13 @@ class TaskForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=50, required=False, label='Найти')
+
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ["text", "author"]
+        widgets = {
+            "text": widgets.Textarea(attrs={"placeholder": "введите текст", "cols": 30, "rows": 3})
+        }
