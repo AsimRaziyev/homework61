@@ -18,9 +18,11 @@ class Task(BaseModel):
     description = models.TextField(max_length=3000, null=True,
                                    verbose_name="Описание", validators=[validate_description])
     status = models.ForeignKey("webapp.Statuses", null=True, on_delete=models.PROTECT,
-                               related_name="status", verbose_name="Статус", )
+                               related_name="status", verbose_name="Статус")
     tags = models.ManyToManyField("webapp.Tag", related_name="tasks", blank=True)
     types = models.ManyToManyField("webapp.Types", related_name="tasks", blank=True)
+    project = models.ForeignKey("webapp.Project", null=True, on_delete=models.PROTECT,
+                               related_name="project", verbose_name="Проект", default=1)
 
     def __str__(self):
         return f"{self.id}. {self.summary}: {self.author}.{self.description}"
@@ -83,3 +85,10 @@ class Tag(BaseModel):
         db_table = "tags"
         verbose_name = "Тэг"
         verbose_name_plural = "Тэги"
+
+
+class Project(models.Model):
+    start_date = models.DateField(verbose_name="Дата создания")
+    end_date = models.DateField(verbose_name="Дата окончания", blank=True, null=True)
+    name = models.CharField(verbose_name="Имя", max_length=50)
+    description = models.TextField(verbose_name="Описание")

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from webapp.models import Task, Statuses, Comment, Types, Tag
+from webapp.models import Task, Statuses, Comment, Types, Tag, Project
 
 
 class TagInline(admin.TabularInline):
@@ -58,3 +58,11 @@ class TagAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Tag, TagAdmin)
+
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'start_date', 'end_date']
+    list_display_links = ['name']
+
+
+admin.site.register(Project, ProjectAdmin)
