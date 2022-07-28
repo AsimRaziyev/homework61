@@ -43,6 +43,9 @@
       <li class="list-group-item"><label>Комментарии:</label>
         {% for comment in comments %}
              <h5>{{ comment.text }}</h5>
+          <a href="{% url 'update_comment' comment.pk %}">
+             <h2 class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Изменить</h2>
+          </a>
         {% empty %}
              <h5>Комментариев нет</h5>
         {% endfor %}</li>

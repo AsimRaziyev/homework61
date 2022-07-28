@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.views.generic import RedirectView, FormView, ListView, DetailView, CreateView
+from django.views.generic import RedirectView, FormView, ListView, DetailView, CreateView, UpdateView
 from webapp.models import Task, Project
 from webapp.forms import TaskForm, SearchForm, TaskFormProject
 
@@ -76,28 +76,10 @@ class CreateTaskWithProject(CreateView):
         return reverse("project_view", kwargs={"pk": self.object.project.pk})
 
 
-class UpdateTask(FormView):
+class UpdateTask(UpdateView):
     form_class = TaskForm
     template_name = "tasks/update.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.task = self.get_objects()
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_success_url(self):
-        return reverse("task_view", kwargs={"pk": self.task.pk})
-
-    def get_form_kwargs(self):
-        form_kwargs = super().get_form_kwargs()
-        form_kwargs['instance'] = self.task
-        return form_kwargs
-
-    def form_valid(self, form):
-        self.task = form.save()
-        return super().form_valid(form)
-
-    def get_objects(self):
-        return get_object_or_404(Task, pk=self.kwargs.get("pk"))
+    model = Task
 
 
 def delete_task(request, pk):
