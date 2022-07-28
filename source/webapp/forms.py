@@ -2,7 +2,7 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import widgets
-from webapp.models import Task, Comment
+from webapp.models import Task, Comment, Project
 
 
 class TaskForm(forms.ModelForm):
@@ -38,4 +38,25 @@ class CommentForm(forms.ModelForm):
         fields = ["text", "author"]
         widgets = {
             "text": widgets.Textarea(attrs={"placeholder": "введите текст", "cols": 30, "rows": 3})
+        }
+
+
+class ProjectForm(forms.ModelForm):
+
+    class Meta:
+        model = Project
+        fields = ["name", "description", 'start_date', 'end_date']
+        widgets = {
+            "description": widgets.Textarea(attrs={"placeholder": "введите текст", "cols": 30, "rows": 3})
+        }
+
+
+class TaskFormProject(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ["summary", "author", "description", "status", "tags", "types"]
+        widgets = {
+            "tags": widgets.CheckboxSelectMultiple,
+            "types": widgets.CheckboxSelectMultiple,
+            "description": widgets.Textarea(attrs={"placeholder": "введите текст", "cols": 30, "rows": 3})
         }

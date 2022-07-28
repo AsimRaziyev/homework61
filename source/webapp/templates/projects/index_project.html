@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% load request_get_replace_page %}
+{% block nav %}
+     <li class="nav-item">
+         <a class="nav-link" href="{% url 'project_create' %}">Создать проект</a>
+     </li>
+
+{% endblock %}
+
+{% block search_form %}
+{% endblock %}
+
+{% block content %}
+<h1>Проекты</h1>
+    <div class="row">
+        {% for project in projects %}
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <div class="card border-info">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.name }}</h5>
+                        <a href="{% url 'project_view' project.pk %}" class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -22,12 +22,13 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                {% block nav %}
+                {% block nav %}{% endblock %}
 
-                {% endblock %}
+                {% block search_form %}
                 <li class="search_nav">
                     {% include "partial/search.html" with form=search_form %}
                 </li>
+                {% endblock %}
             </ul>
         </div>
     </div>

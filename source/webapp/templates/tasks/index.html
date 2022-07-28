@@ -2,16 +2,12 @@
 {% load static %}
 {% load request_get_replace_page %}
 {% block nav %}
-    <li class="nav-item">
-        {% csrf_token %}
-        <a class="nav-link" href="{% url 'create_task' %}">Создание задачи</a>
-    </li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'projects_index' %}">Проекты</a>
+</li>
 {% endblock %}
 
 {% block content %}
-
-     <a href="?{{ request|get_sort:'updated_at' }}">Сортировать по дате изменения</a>
-     <a href="?{{ request|get_sort:'summary' }}">Сортировать по названиям</a>
 
 <h1>Задачи</h1>
     <div class="row">
@@ -19,14 +15,24 @@
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 <div class="card border-info">
                     <div class="card-body">
-                        <a href="{{ task.get_absolute_url }}" class="card-link" title="Просмотр задачи"><h5 class="card-title">{{ task.summary }}</h5></a>
+                        <h5 class="card-title">{{ task.summary }}</h5>
+                        <a href="{{ task.get_absolute_url }}" class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Подробнее</a>
                     </div>
                 </div>
             </div>
         {% empty %}
         {% endfor %}
+
+    </div>
+<div class="sort mt-5">
         {% if is_paginated %}
             {% include "partial/pagination.html" %}
         {% endif %}
-    </div>
+     <a href="?{{ request|get_sort:'updated_at' }}">
+         <h2 class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Сортировать по дате изменения</h2>
+     </a>
+     <a href="?{{ request|get_sort:'summary' }}">
+         <h2 class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Сортировать по названиям</h2>
+     </a>
+</div>
 {% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block nav %}
+     <li class="nav-item">
+         <a class="nav-link" href="{% url 'projects_index' %}">Проекты</a>
+     </li>
+     <li class="nav-item">
+         <a class="nav-link" href="{% url 'create_task' project.pk %}">Создать задачу</a>
+     </li>
+     <li class="nav-item">
+         <a class="nav-link" href="#">Редактировать</a>
+     </li>
+     <li class="nav-item">
+         <a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="">Удалить</a>
+     </li>
+
+{% block search_form %}
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row  ms-xl-5">
+    <h1 class="card-title text-center mb-5">проект: {{ project.name }}</h1>
+    {% for task in tasks %}
+    <div class="col-4 mb-3">
+        <div class="card border-info h-100" style="width: 18rem;">
+            <div class="card-body  d-flex flex-column">
+                <h4 class="card-title">{{ task.summary }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Статус: </b>
+                    {% if not task.status == None %}
+                    <p>{{ task.status}}</p>
+                    {% else %}
+                    <span>Нет</span>
+                    {% endif %}
+                </h6>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Типы: </b>
+                    {% for type in task.types.all %}
+                    <p>{{ type.type_text }}</p>
+                    {% empty %}
+                    <p>Типов нет</p>
+                    {% endfor %}
+                </h6>
+                <a href=" {% url 'task_view' task.pk %}"
+                   class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Подробнее</a>
+            </div>
+        </div>
+    </div>
+
+    {% empty %}
+    <h1>Задач нет!</h1>
+    {% endfor %}
+</div>
+    {% endblock %}

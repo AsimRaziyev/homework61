@@ -61,7 +61,7 @@ admin.site.register(Tag, TagAdmin)
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'start_date', 'end_date']
+    list_display = ['id', 'name', 'description', 'start_date', 'end_date']
     list_display_links = ['name']
 
 

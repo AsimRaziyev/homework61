@@ -19,10 +19,10 @@ class Task(BaseModel):
                                    verbose_name="Описание", validators=[validate_description])
     status = models.ForeignKey("webapp.Statuses", null=True, on_delete=models.PROTECT,
                                related_name="status", verbose_name="Статус")
-    tags = models.ManyToManyField("webapp.Tag", related_name="tasks", blank=True)
-    types = models.ManyToManyField("webapp.Types", related_name="tasks", blank=True)
-    project = models.ForeignKey("webapp.Project", null=True, on_delete=models.PROTECT,
-                               related_name="project", verbose_name="Проект", default=1)
+    tags = models.ManyToManyField("webapp.Tag", related_name="tags", blank=True)
+    types = models.ManyToManyField("webapp.Types", related_name="types", blank=True)
+    project = models.ForeignKey("webapp.Project", on_delete=models.PROTECT,
+                                related_name="tasks", verbose_name="Проект")
 
     def __str__(self):
         return f"{self.id}. {self.summary}: {self.author}.{self.description}"
@@ -65,7 +65,6 @@ class Statuses(BaseModel):
 class Types(BaseModel):
     type_text = models.CharField(max_length=50, null=True, verbose_name="Текст")
 
-
     def __str__(self):
         return f"{self.id}. {self.type_text}"
 
@@ -92,3 +91,14 @@ class Project(models.Model):
     end_date = models.DateField(verbose_name="Дата окончания", blank=True, null=True)
     name = models.CharField(verbose_name="Имя", max_length=50)
     description = models.TextField(verbose_name="Описание")
+
+    def __str__(self):
+        return f"{self.name}.{self.description}.{self.start_date}.{self.end_date}"
+
+    def get_absolute_url(self):
+        return reverse("project_view", kwargs={'pk': self.pk})
+
+    class Meta:
+        db_table = "webapp_project"
+        verbose_name = "Проект"
+        verbose_name_plural = "Проекты"
