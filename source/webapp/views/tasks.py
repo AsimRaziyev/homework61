@@ -1,8 +1,8 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
-from django.views.generic import RedirectView, FormView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import RedirectView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from webapp.models import Task, Project
 from webapp.forms import TaskForm, SearchForm, TaskFormProject
 
@@ -68,7 +68,6 @@ class CreateTaskWithProject(CreateView):
 
     def form_valid(self, form):
         project = get_object_or_404(Project, pk=self.kwargs.get("pk"))
-        print(project)
         form.instance.project = project
         return super().form_valid(form)
 
@@ -82,11 +81,8 @@ class UpdateTask(UpdateView):
     model = Task
 
 
-def delete_task(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    if request.method == "GET":
-        pass
-        return render(request, "tasks/delete.html", {"task": task})
-    else:
-        task.delete()
-        return redirect("index")
+class DeleteTask(DeleteView):
+    model = Task
+    template_name = "tasks/delete.html"
+    success_url = reverse_lazy('index')
+
