@@ -3,7 +3,8 @@ from django.urls import path
 
 from webapp.views import IndexView, RedirectView, CreateProjectView, \
     TaskView, UpdateTask, DeleteTask, CreateCommentView, \
-    ProjectsView, ProjectDetail, CreateTaskWithProject, UpdateComment, DeleteComment
+    ProjectsView, ProjectDetail, CreateTaskWithProject, UpdateComment,\
+    DeleteComment, UpdateProject, DeleteProject
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
@@ -19,6 +20,8 @@ urlpatterns = [
 
     path('projects/', ProjectsView.as_view(), name="projects_index"),
     path('project/<int:pk>/', ProjectDetail.as_view(), name="project_view"),
-    path('project/', CreateProjectView.as_view(), name="project_create")
+    path('project/', CreateProjectView.as_view(), name="project_create"),
+    path('projects/<int:pk>/update/', UpdateProject.as_view(), name="update_project"),
+    path('projects/<int:pk>/delete/', DeleteProject.as_view(), name="delete_project"),
 
 ]

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Удаление задач{% endblock %}
+
+{% block content %}
+
+<div class="top_name card border-info mt-2 ms-4" style="max-width: 20rem;">
+  <div class="card-header"><h4>Создание проекта</h4></div>
+  <div class="card-body">
+   <form action="" method="post">
+{% csrf_token %}
+    <h5>Вы уверены что хотите удалить статью "{{ project.name }}"?</h5>
+    <button class="btn btn-danger" type="submit">Да</button>
+    <a class="btn btn-primary" href="{% url 'project_view' project.pk %}">Нет</a>
+</form>
+  </div>
+</div>
+{% endblock %}

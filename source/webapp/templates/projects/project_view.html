@@ -7,11 +7,14 @@
          <a class="nav-link" href="{% url 'create_task' project.pk %}">Создать задачу</a>
      </li>
      <li class="nav-item">
-         <a class="nav-link" href="#">Редактировать</a>
+         <a class="nav-link" href="{% url 'update_project' project.pk %}">Редактировать</a>
      </li>
-     <li class="nav-item">
-         <a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="">Удалить</a>
-     </li>
+<!--     <li class="nav-item">-->
+<!--         <a class="nav-link" href="{% url 'delete_project' project.pk %}">Удалить</a>-->
+<!--     </li>-->
+<li class="nav-item">
+    <a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">Удалить</a>
+</li>
 
 {% block search_form %}
 {% endblock %}
@@ -20,8 +23,17 @@
 
 {% block content %}
 
+<div class="card border-info h-100 text-center" style="width: 18rem;">
+
+<p class="card-title">Дата создания проекта: {{ project.start_date }}</p>
+                        {% if project.end_date == None %}
+                             <p class="card-title">Дата окончания проекта: Не указана</p>
+                        {% else %}
+                              <p class="card-title">Дата окончания проекта: {{ project.end_date }}</p>
+                        {% endif %}
+    </div>
 <div class="row  ms-xl-5">
-    <h1 class="card-title text-center mb-5">проект: {{ project.name }}</h1>
+     <h1 class="card-title  mb-5">проект: {{ project.name }}</h1>
     {% for task in tasks %}
     <div class="col-4 mb-3">
         <div class="card border-info h-100" style="width: 18rem;">
@@ -50,5 +62,26 @@
     {% empty %}
     <h1>Задач нет!</h1>
     {% endfor %}
+</div>
+<div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="projectDeleteModal">Удалить Проект</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены что хотите удалить запись {{ project.name }}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                <form action="{% url 'delete_project' project.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary" type="submit">Да</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
     {% endblock %}

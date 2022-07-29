@@ -18,7 +18,8 @@
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 <div class="card border-info">
                     <div class="card-body">
-                        <h5 class="card-title">{{ project.name }}</h5>
+                        <p class="card-title">Название: <h5>{{ project.name }}</h5></p>
+                        <p class="card-title">Описание: <h5>{{ project.description }}</h5></p>
                         <a href="{% url 'project_view' project.pk %}" class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Подробнее</a>
                     </div>
                 </div>

@@ -21,7 +21,7 @@ class Task(BaseModel):
                                related_name="status", verbose_name="Статус")
     tags = models.ManyToManyField("webapp.Tag", related_name="tags", blank=True)
     types = models.ManyToManyField("webapp.Types", related_name="types", blank=True)
-    project = models.ForeignKey("webapp.Project", on_delete=models.PROTECT,
+    project = models.ForeignKey("webapp.Project", on_delete=models.CASCADE,
                                 related_name="tasks", verbose_name="Проект")
 
     def __str__(self):

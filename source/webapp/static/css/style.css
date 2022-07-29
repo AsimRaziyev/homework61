@@ -13,3 +13,7 @@ button.but {
 input.form-control {
     width: 40px;
 }
+
+date_project{
+    color: darkgreen;
+}
