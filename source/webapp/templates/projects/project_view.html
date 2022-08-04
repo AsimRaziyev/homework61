@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 {% block nav %}
      <li class="nav-item">
-         <a class="nav-link" href="{% url 'projects_index' %}">Проекты</a>
+         <a class="nav-link" href="{% url 'webapp:projects_index' %}">Проекты</a>
      </li>
-     <li class="nav-item">
-         <a class="nav-link" href="{% url 'create_task' project.pk %}">Создать задачу</a>
-     </li>
-     <li class="nav-item">
-         <a class="nav-link" href="{% url 'update_project' project.pk %}">Редактировать</a>
-     </li>
-<!--     <li class="nav-item">-->
-<!--         <a class="nav-link" href="{% url 'delete_project' project.pk %}">Удалить</a>-->
-<!--     </li>-->
-<li class="nav-item">
-    <a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">Удалить</a>
-</li>
+     {% if request.user.is_authenticated %}
+         <li class="nav-item">
+             <a class="nav-link" href="{% url 'webapp:create_task' project.pk %}">Создать задачу</a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link" href="{% url 'webapp:update_project' project.pk %}">Редактировать</a>
+         </li>
+    <!--     <li class="nav-item">-->
+    <!--         <a class="nav-link" href="{% url 'webapp:delete_project' project.pk %}">Удалить</a>-->
+    <!--     </li>-->
+         <li class="nav-item">
+             <a class="nav-link" type="button" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">Удалить</a>
+         </li>
+     {% endif %}
 
 {% block search_form %}
 {% endblock %}
@@ -53,7 +55,7 @@
                     <p>Типов нет</p>
                     {% endfor %}
                 </h6>
-                <a href=" {% url 'task_view' task.pk %}"
+                <a href=" {% url 'webapp:task_view' task.pk %}"
                    class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Подробнее</a>
             </div>
         </div>
@@ -76,7 +78,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                <form action="{% url 'delete_project' project.pk %}" method="post">
+                <form action="{% url 'webapp:delete_project' project.pk %}" method="post">
                     {% csrf_token %}
                     <button class="btn btn-secondary" type="submit">Да</button>
                 </form>

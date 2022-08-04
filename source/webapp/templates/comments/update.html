@@ -6,7 +6,7 @@
   <div class="card-header"><h2>Изменить комментарий</h2></div>
   <div class="card-body">
     <form action="" method="post">
-        {% include "partial/form.html" with button_text="Изменить" %} <a href="{% url 'task_view' comment.task.pk %}"><input type="button" value="Назад"></a>
+        {% include "partial/form.html" with button_text="Изменить" %} <a href="{% url 'webapp:task_view' comment.task.pk %}"><input type="button" value="Назад"></a>
     </form>
   </div>
 </div>

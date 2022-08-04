@@ -6,6 +6,8 @@ from webapp.views import IndexView, RedirectView, CreateProjectView, \
     ProjectsView, ProjectDetail, CreateTaskWithProject, UpdateComment,\
     DeleteComment, UpdateProject, DeleteProject
 
+app_name = "webapp"
+
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path('tasks/', RedirectView.as_view(pattern_name="index")),

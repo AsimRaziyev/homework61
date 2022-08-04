@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="top_name card border-info mt-2 ms-4" style="max-width: 20rem;">
+  <div class="card-header text-center"><h4>Вход</h4></div>
+  <div class="card-body">
+    <form action="{% url 'accounts:login' %}" method="post" class="text-center">
+        {% csrf_token %}
+        {% if has_error %}
+            <p class="text-danger">Неверное имя пользователя или пароль.</p>
+        {% endif %}
+        <div class="form-group">
+            <label for="username" class="form-label">Имя пользователя:</label>
+            <input type="text" name="username" id="username">
+        </div>
+        <div class="form-group">
+            <label for="password" class="form-label">Пароль:</label>
+            <br>
+            <input type="password" name="password" id="password">
+        </div>
+        <br>
+        <button class="btn btn-outline-info btn-sm" type="submit">Войти</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

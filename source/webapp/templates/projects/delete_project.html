@@ -10,7 +10,7 @@
 {% csrf_token %}
     <h5>Вы уверены что хотите удалить статью "{{ project.name }}"?</h5>
     <button class="btn btn-danger" type="submit">Да</button>
-    <a class="btn btn-primary" href="{% url 'project_view' project.pk %}">Нет</a>
+    <a class="btn btn-primary" href="{% url 'webapp:project_view' project.pk %}">Нет</a>
 </form>
   </div>
 </div>

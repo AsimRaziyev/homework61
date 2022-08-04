@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -62,7 +63,7 @@ class TaskView(DetailView):
         return context
 
 
-class CreateTaskWithProject(CreateView):
+class CreateTaskWithProject(LoginRequiredMixin, CreateView):
     form_class = TaskFormProject
     template_name = "tasks/create_tasks_project.html"
 
@@ -72,17 +73,22 @@ class CreateTaskWithProject(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("project_view", kwargs={"pk": self.object.project.pk})
+        return reverse("webapp:project_view", kwargs={"pk": self.object.project.pk})
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     if request.user.is_authenticated:
+    #        return super().dispatch(request, *args, **kwargs)
+    #     return redirect("accounts:login")
 
 
-class UpdateTask(UpdateView):
+class UpdateTask(LoginRequiredMixin, UpdateView):
     form_class = TaskForm
     template_name = "tasks/update.html"
     model = Task
 
 
-class DeleteTask(DeleteView):
+class DeleteTask(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "tasks/delete.html"
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('webapp:index')
 

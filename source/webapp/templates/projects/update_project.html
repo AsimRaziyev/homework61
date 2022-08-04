@@ -6,7 +6,7 @@
   <div class="card-header"><h2>Изменить проект</h2></div>
   <div class="card-body">
     <form action="" method="post">
-        {% include "partial/form.html" with button_text="Изменить" %} <a href="{% url 'project_view' project.pk %}"><input type="button" value="Назад"></a>
+        {% include "partial/form.html" with button_text="Изменить" %} <a href="{% url 'webapp:project_view' project.pk %}"><input type="button" value="Назад"></a>
     </form>
   </div>
 </div>

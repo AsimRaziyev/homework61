@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.urls import reverse
 from webapp.validate import validate_summary, validate_description, validate_author
@@ -28,7 +29,7 @@ class Task(BaseModel):
         return f"{self.id}. {self.summary}: {self.author}.{self.description}"
 
     def get_absolute_url(self):
-        return reverse("task_view", kwargs={"pk": self.pk})
+        return reverse("webapp:task_view", kwargs={"pk": self.pk})
 
     class Meta:
         db_table = "tasks"
@@ -96,7 +97,7 @@ class Project(models.Model):
         return f"{self.name}.{self.description}.{self.start_date}.{self.end_date}"
 
     def get_absolute_url(self):
-        return reverse("project_view", kwargs={'pk': self.pk})
+        return reverse("webapp:project_view", kwargs={'pk': self.pk})
 
     class Meta:
         db_table = "webapp_project"
