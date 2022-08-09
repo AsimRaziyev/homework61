@@ -57,11 +57,6 @@ class TaskView(DetailView):
     template_name = "tasks/task_view.html"
     model = Task
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['comments'] = self.object.comments.order_by("-created_at")
-    #     return context
-
 
 class CreateTaskWithProject(LoginRequiredMixin, CreateView):
     form_class = TaskFormProject
@@ -74,11 +69,6 @@ class CreateTaskWithProject(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse("webapp:project_view", kwargs={"pk": self.object.project.pk})
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     if request.user.is_authenticated:
-    #        return super().dispatch(request, *args, **kwargs)
-    #     return redirect("accounts:login")
 
 
 class UpdateTask(LoginRequiredMixin, UpdateView):
