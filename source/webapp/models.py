@@ -37,20 +37,6 @@ class Task(BaseModel):
         verbose_name_plural = "Задачи"
 
 
-class Comment(BaseModel):
-    text = models.TextField(max_length=400, verbose_name="Комментарий")
-    author = models.CharField(max_length=40, null=True, default="Аноним", verbose_name="Автор")
-    task = models.ForeignKey("webapp.Task", on_delete=models.CASCADE, related_name="comments", verbose_name="Задача")
-
-    def __str__(self):
-        return f"{self.id}. {self.text}: {self.author}.{self.task}"
-
-    class Meta:
-        db_table = "comments"
-        verbose_name = "Комментарий"
-        verbose_name_plural = "Комментарии"
-
-
 class Statuses(BaseModel):
     status_text = models.CharField(max_length=50, null=True, verbose_name="Статус")
 

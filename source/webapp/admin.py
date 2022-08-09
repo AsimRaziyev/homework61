@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from webapp.models import Task, Statuses, Comment, Types, Tag, Project
+from webapp.models import Task, Statuses, Types, Tag, Project
 
 
 class TagInline(admin.TabularInline):
@@ -41,14 +41,6 @@ class TypesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Types, TypesAdmin)
-
-
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'text', 'author', 'created_at']
-    list_display_links = ['text']
-
-
-admin.site.register(Comment, CommentAdmin)
 
 
 class TagAdmin(admin.ModelAdmin):

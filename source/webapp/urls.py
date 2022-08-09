@@ -2,9 +2,8 @@ from django.contrib import admin
 from django.urls import path
 
 from webapp.views import IndexView, RedirectView, CreateProjectView, \
-    TaskView, UpdateTask, DeleteTask, CreateCommentView, \
-    ProjectsView, ProjectDetail, CreateTaskWithProject, UpdateComment,\
-    DeleteComment, UpdateProject, DeleteProject
+    TaskView, UpdateTask, DeleteTask, ProjectsView, ProjectDetail,\
+    CreateTaskWithProject, UpdateProject, DeleteProject
 
 app_name = "webapp"
 
@@ -15,9 +14,6 @@ urlpatterns = [
     path("task/<int:pk>/", TaskView.as_view(), name="task_view"),
     path('task/<int:pk>/update/', UpdateTask.as_view(), name="update_task"),
     path('task/<int:pk>/delete/', DeleteTask.as_view(), name="delete_task"),
-    path("task/<int:pk>/comment/add/", CreateCommentView.as_view(), name="task_comment_create"),
-    path('comments/<int:pk>/update/', UpdateComment.as_view(), name="update_comment"),
-    path('comments/<int:pk>/delete/', DeleteComment.as_view(), name="delete_comment"),
 
 
     path('projects/', ProjectsView.as_view(), name="projects_index"),
