@@ -1,4 +1,4 @@
-
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from webapp.validate import validate_summary, validate_description, validate_author
@@ -78,6 +78,8 @@ class Project(models.Model):
     end_date = models.DateField(verbose_name="Дата окончания", blank=True, null=True)
     name = models.CharField(verbose_name="Имя", max_length=50)
     description = models.TextField(verbose_name="Описание")
+    users = models.ManyToManyField(get_user_model(), related_name="users",
+                                verbose_name='Пользователь')
 
     def __str__(self):
         return f"{self.name}.{self.description}.{self.start_date}.{self.end_date}"
@@ -89,3 +91,7 @@ class Project(models.Model):
         db_table = "webapp_project"
         verbose_name = "Проект"
         verbose_name_plural = "Проекты"
+        permissions = [
+            ("add_users_to_the_project", "добавлять пользователей в проект"),
+            ("remove_users_from_the_project", "удалять пользователей из проекта")
+        ]

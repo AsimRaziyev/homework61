@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Добавить пользователя{% endblock %}
+
+
+{% block content %}
+<div class="card border-info mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h2>Добавить пользователя</h2></div>
+  <div class="card-body">
+    <form action="" method="post">
+        {% csrf_token %}
+        <select name="user_project">
+            {% for user in users %}
+                <option value="{{ user.pk }}">{{ user }}</option>
+            {% endfor %}
+        </select>
+        <input type="hidden" name="project_user" value='{{ proekt.pk }}'>
+        <button type="submit">Добавить</button>
+    </form><br/>
+  </div>
+</div>
+{% endblock %}

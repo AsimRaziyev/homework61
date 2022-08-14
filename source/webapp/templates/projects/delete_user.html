@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Удаление пользователя{% endblock %}
+
+{% block content %}
+
+<div class="top_name card border-info mt-2 ms-4" style="max-width: 30rem;">
+  <div class="card-header"><h4>Удаление пользователя</h4></div>
+  <div class="card-body">
+   <form action="" method="post">
+{% csrf_token %}
+    <h5>Вы уверены что хотите удалить этого пользователя "{{ user }}"?</h5>
+    <button class="btn btn-danger" type="submit">Да</button>
+    <a class="btn btn-primary" href="{% url 'webapp:project_view' proekt.pk %}">Нет</a>
+</form>
+  </div>
+</div>
+{% endblock %}
