@@ -67,6 +67,11 @@ class CreateTaskWithProject(PermissionRequiredMixin, CreateView):
     def has_permission(self, **kwargs):
         return self.request.user.has_perm("webapp.add_task")
 
+    def detail(request, pk):
+        tas = Task.objects.get(id=pk)
+        print(tas)
+        # posts = tas.users.all()
+
     def form_valid(self, form):
         project = get_object_or_404(Project, pk=self.kwargs.get("pk"))
         form.instance.project = project

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="card border-info mb-3" style="width: 18rem;">
+        <div class="card-header"><label>Имя пользователя:</label>
+            <h3 class="FO">{{ user.username }}</h3>
+        </div>
+        {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" class = "card-img-top" alt="...">
+        {% endif %}
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><label>Год рождения:</label>
+                <h3>{{ user.profile.birthday }}</h3>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}
