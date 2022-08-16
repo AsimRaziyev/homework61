@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% load request_get_replace_page %}
+{% block nav %}
+
+{% endblock %}
+
+{% block content %}
+    <h1>Пользователи</h1>
+    <div class="row">
+        {% for user in users.all %}
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <div class="card border-info">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.user }}</h5>
+                        <a href="{% url 'accounts:profile' user.user.pk %}"
+                           class="btn btn-outline-info btn-sm mt-auto d-inline-block w-30">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+        {% endfor %}
+    </div>
+{% endblock %}

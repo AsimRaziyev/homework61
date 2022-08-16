@@ -21,7 +21,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mt-3">
                 {% block nav %}
                 {% endblock %}
                 {% if request.user.is_authenticated %}
@@ -37,6 +37,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'accounts:create' %}?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.get_full_path }}{% endif %}">Зарегистрироваться</a>
+                </li>
+                {% endif %}
+                {% if perms.accounts.view_profile %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:list_view' %}">Список пользователей</a>
                 </li>
                 {% endif %}
 

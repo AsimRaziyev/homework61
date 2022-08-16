@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 
@@ -9,7 +10,7 @@ from django.urls import reverse
 from django.views.generic import CreateView
 from accounts.forms import MyUserCreationForm
 from accounts.models import Profile
-from webapp.views import DetailView
+from webapp.views import DetailView, ListView
 
 
 class RegisterView(CreateView):
@@ -54,3 +55,12 @@ def logout_view(request):
 class ProfileView(LoginRequiredMixin, DetailView):
     model = get_user_model()
     template_name = "profile.html"
+
+
+class ProfileListView(PermissionRequiredMixin, ListView):
+    model = Profile
+    template_name = "list_user_view.html"
+    context_object_name = "users"
+
+    def has_permission(self, **kwargs):
+        return self.request.user.has_perm("accounts.view_profile")

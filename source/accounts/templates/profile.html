@@ -2,20 +2,43 @@
 
 {% block title %}Профиль{% endblock %}
 
+{% block nav %}
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="#">Редактировать</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Сменить пароль</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <br>
-    <div class="card border-info mb-3" style="width: 18rem;">
+    <div class="card border-info " style="width: 18rem;">
         <div class="card-header"><label>Имя пользователя:</label>
             <h3 class="FO">{{ user.username }}</h3>
         </div>
         {% if user.profile.avatar %}
-        <img src="{{ user.profile.avatar.url }}" class = "card-img-top" alt="...">
+            <img src="{{ user.profile.avatar.url }}" class="card-img-top" alt="...">
         {% endif %}
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><label>Год рождения:</label>
-                <h3>{{ user.profile.birthday }}</h3>
+            <li class="list-group-item"><label>Профиль на GitHub:</label>
+                <h5>{{ user.profile.profile_on_github }}</h5>
+            </li>
+            <li class="list-group-item"><label>Имя:</label>
+                <h5>{{ user.first_name }}</h5>
+            </li>
+            <li class="list-group-item"><label>Фамилия:</label>
+                <h5>{{ user.last_name }}</h5>
+            </li>
+            <li class="list-group-item"><label>Почта:</label>
+                <h5>{{ user.email }}</h5>
+            </li>
+            <li class="list-group-item"><label>О себе:</label>
+                <h5>{{ user.profile.about }}</h5>
             </li>
         </ul>
     </div>
-
+    {% include "partial/projects_list_partial.html" with projects=user.users.all %}
 {% endblock %}

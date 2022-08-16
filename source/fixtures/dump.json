@@ -192,6 +192,21 @@
    }
 },
 {
+   "model": "webapp.task",
+   "pk": 81,
+   "fields": {
+      "created_at": "2022-08-16",
+      "updated_at": "2022-08-16",
+      "summary": "manager",
+      "author": "Manager",
+      "description": "m",
+      "status": 1,
+      "project": 2,
+      "tags": [],
+      "types": []
+   }
+},
+{
    "model": "webapp.statuses",
    "pk": 1,
    "fields": {
@@ -313,7 +328,8 @@
       "name": "Son",
       "description": "sddd",
       "users": [
-         15
+         15,
+         18
       ]
    }
 },
@@ -350,6 +366,19 @@
       "name": "Test1",
       "description": "xss",
       "users": []
+   }
+},
+{
+   "model": "webapp.project",
+   "pk": 43,
+   "fields": {
+      "start_date": "2022-08-16",
+      "end_date": null,
+      "name": "Test2",
+      "description": "test",
+      "users": [
+         1
+      ]
    }
 }
 ]
