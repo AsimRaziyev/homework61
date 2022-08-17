@@ -57,4 +57,5 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display_links = ['name']
 
 
+
 admin.site.register(Project, ProjectAdmin)
